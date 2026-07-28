@@ -61,11 +61,24 @@ def detect_directory_scans(logs):
 
         for path in suspicious_paths:
             if path in log:
+                if path == "/.env":
+                    severity = "High"
+
+                elif path in ["/phpmyadmin", "/wp-login.php"]:
+                      severity = "High"
+
+                elif path == "/admin":
+                      severity = "Medium"
+
+                else:
+                    severity = "Low"
+
+
                 alerts.append({
                     "type": "Directory Scan",
                     "ip": ip,
                     "target": path,
-                    "severity": "Medium"
+                    "severity": severity
                 })
 
     return alerts
@@ -74,15 +87,26 @@ def generate_alerts(failed_attempts):
     alerts = []
 
     for ip, count in failed_attempts.items():
-        if count >= 3:
-            alert = {
-                "type": "Brute Force Attack",
-                "ip": ip,
-                "attempts": count,
-                "severity": "Medium"
-            }
+        if count >= 10:
+            severity = "High"
 
-            alerts.append(alert)
+        elif count >= 5:
+            severity = "Medium"
+
+        elif count >= 3:
+            severity = "Low"
+
+        else:
+            continue
+
+        alert = {
+            "type": "Brute Force Attack",
+            "ip": ip,
+            "attempts": count,
+            "severity": severity
+        }
+
+        alerts.append(alert)
 
     return alerts
 
