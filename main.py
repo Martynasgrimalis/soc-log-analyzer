@@ -12,6 +12,9 @@ def extract_ips(logs):
     ips = []
 
     for log in logs:
+        if not log.strip():
+            continue
+
         ip = log.split()[0]
         ips.append(ip)
 
@@ -22,6 +25,9 @@ def detect_failed_logins(logs):
     failed_logins = {}
 
     for log in logs:
+        if not log.strip():
+            continue
+
         parts = log.split()
 
         ip = parts[0]
