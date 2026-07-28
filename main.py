@@ -18,6 +18,24 @@ def extract_ips(logs):
     return ips
 
 
+def detect_failed_logins(logs):
+    failed_logins = {}
+
+    for log in logs:
+        parts = log.split()
+
+        ip = parts[0]
+        status_code = parts[-1]
+
+        if status_code == "401":
+            if ip in failed_logins:
+                failed_logins[ip] += 1
+            else:
+                failed_logins[ip] = 1
+
+    return failed_logins
+
+
 log_file = "logs/sample.log"
 
 logs = read_log_file(log_file)
@@ -31,4 +49,12 @@ ip_counter = Counter(ips)
 print("\nIP Address Frequency")
 
 for ip, count in ip_counter.items():
+    print(ip, ":", count)
+
+
+failed_attempts = detect_failed_logins(logs)
+
+print("\nFailed Login Attempts")
+
+for ip, count in failed_attempts.items():
     print(ip, ":", count)
