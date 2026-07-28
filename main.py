@@ -1,21 +1,4 @@
-def read_log_file(file_path):
-    with open(file_path, "r") as file:
-        logs = file.readlines()
-
-    return logs
-
-
-log_file = "logs/sample.log"
-
-logs = read_log_file(log_file)
-
-print("Number of log entries:", len(logs))
-
-for log in logs:
-    print(log.strip())
-
-
-    from collections import Counter
+from collections import Counter
 
 
 def read_log_file(file_path):
@@ -39,11 +22,13 @@ log_file = "logs/sample.log"
 
 logs = read_log_file(log_file)
 
+print("Number of log entries:", len(logs))
+
 ips = extract_ips(logs)
 
 ip_counter = Counter(ips)
 
-print("IP Address Frequency")
+print("\nIP Address Frequency")
 
 for ip, count in ip_counter.items():
     print(ip, ":", count)
