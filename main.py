@@ -36,11 +36,29 @@ def detect_failed_logins(logs):
     return failed_logins
 
 
+def generate_alerts(failed_attempts):
+    alerts = []
+
+    for ip, count in failed_attempts.items():
+        if count >= 3:
+            alert = {
+                "type": "Brute Force Attack",
+                "ip": ip,
+                "attempts": count,
+                "severity": "Medium"
+            }
+
+            alerts.append(alert)
+
+    return alerts
+
+
 log_file = "logs/sample.log"
 
 logs = read_log_file(log_file)
 
 print("Number of log entries:", len(logs))
+
 
 ips = extract_ips(logs)
 
@@ -58,3 +76,14 @@ print("\nFailed Login Attempts")
 
 for ip, count in failed_attempts.items():
     print(ip, ":", count)
+
+
+alerts = generate_alerts(failed_attempts)
+
+print("\nSecurity Alerts")
+
+for alert in alerts:
+    print("\n🚨", alert["type"])
+    print("IP:", alert["ip"])
+    print("Attempts:", alert["attempts"])
+    print("Severity:", alert["severity"])
