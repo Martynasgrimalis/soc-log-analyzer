@@ -27,7 +27,7 @@ def detect_failed_logins(logs):
     for log in logs:
         if not log.strip():
             continue
-
+    
         parts = log.split()
 
         ip = parts[0]
@@ -41,6 +41,34 @@ def detect_failed_logins(logs):
 
     return failed_logins
 
+def detect_directory_scans(logs):
+    suspicious_paths = [
+        "/admin",
+        "/.env",
+        "/phpmyadmin",
+        "/wp-login.php"
+    ]
+
+    alerts = []
+
+    for log in logs:
+        if not log.strip():
+            continue
+
+        parts = log.split()
+
+        ip = parts[0]
+
+        for path in suspicious_paths:
+            if path in log:
+                alerts.append({
+                    "type": "Directory Scan",
+                    "ip": ip,
+                    "target": path,
+                    "severity": "Medium"
+                })
+
+    return alerts
 
 def generate_alerts(failed_attempts):
     alerts = []
@@ -92,4 +120,14 @@ for alert in alerts:
     print("\n🚨", alert["type"])
     print("IP:", alert["ip"])
     print("Attempts:", alert["attempts"])
+    print("Severity:", alert["severity"])
+
+scan_alerts = detect_directory_scans(logs)
+
+print("\nDirectory Scan Alerts")
+
+for alert in scan_alerts:
+    print("\n🚨", alert["type"])
+    print("IP:", alert["ip"])
+    print("Target:", alert["target"])
     print("Severity:", alert["severity"])
