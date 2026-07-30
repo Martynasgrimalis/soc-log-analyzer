@@ -1,5 +1,6 @@
 from collections import Counter
-
+import json
+import os
 
 def read_log_file(file_path):
     with open(file_path, "r") as file:
@@ -113,7 +114,16 @@ def generate_alerts(failed_attempts):
         alerts.append(alert)
 
     return alerts
+def export_to_json(brute_force_alerts, directory_alerts):
+    os.makedirs("reports", exist_ok=True)
 
+    all_alerts = brute_force_alerts + directory_alerts
+
+    with open("reports/security_alerts.json", "w") as file:
+        json.dump(all_alerts, file, indent=4)
+
+    print("\nJSON report saved:")
+    print("reports/security_alerts.json")
 
 log_file = "logs/sample.log"
 
@@ -153,6 +163,8 @@ for alert in alerts:
 
 scan_alerts = detect_directory_scans(logs)
 
+directory_alerts = detect_directory_scans(logs)
+
 print("\nDirectory Scan Alerts")
 
 for alert in scan_alerts:
@@ -161,4 +173,5 @@ for alert in scan_alerts:
     print("Target:", alert["target"])
     print("Severity:", alert["severity"])
     print("MITRE ATT&CK:", alert["mitre_id"], "-", alert["mitre_name"])
-    
+
+export_to_json(alerts, directory_alerts)

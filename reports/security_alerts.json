@@ -1,0 +1,50 @@
+[
+    {
+        "type": "Brute Force Attack",
+        "ip": "192.168.1.20",
+        "attempts": 3,
+        "severity": "Low",
+        "mitre_id": "T1110",
+        "mitre_name": "Brute Force"
+    },
+    {
+        "type": "Directory Scan",
+        "ip": "10.0.0.55",
+        "target": "/admin",
+        "severity": "Medium",
+        "mitre_id": "T1595",
+        "mitre_name": "Active Scanning"
+    },
+    {
+        "type": "Directory Scan",
+        "ip": "10.0.0.55",
+        "target": "/admin",
+        "severity": "Medium",
+        "mitre_id": "T1595",
+        "mitre_name": "Active Scanning"
+    },
+    {
+        "type": "Directory Scan",
+        "ip": "203.0.113.45",
+        "target": "/.env",
+        "severity": "High",
+        "mitre_id": "T1595",
+        "mitre_name": "Active Scanning"
+    },
+    {
+        "type": "Directory Scan",
+        "ip": "203.0.113.45",
+        "target": "/phpmyadmin",
+        "severity": "High",
+        "mitre_id": "T1595",
+        "mitre_name": "Active Scanning"
+    },
+    {
+        "type": "Directory Scan",
+        "ip": "203.0.113.45",
+        "target": "/wp-login.php",
+        "severity": "High",
+        "mitre_id": "T1595",
+        "mitre_name": "Active Scanning"
+    }
+]
