@@ -50,7 +50,7 @@ def detect_directory_scans(logs):
         "/wp-login.php"
     ]
 
-    alerts = []
+    scan_counts = {}
 
     for log in logs:
         if not log.strip():
@@ -62,27 +62,42 @@ def detect_directory_scans(logs):
 
         for path in suspicious_paths:
             if path in log:
-                if path == "/.env":
-                    severity = "High"
 
-                elif path in ["/phpmyadmin", "/wp-login.php"]:
-                      severity = "High"
+                key = (ip, path)
 
-                elif path == "/admin":
-                      severity = "Medium"
-
+                if key in scan_counts:
+                    scan_counts[key] += 1
                 else:
-                    severity = "Low"
+                    scan_counts[key] = 1
 
 
-                alerts.append({
-                    "type": "Directory Scan",
-                    "ip": ip,
-                    "target": path,
-                    "severity": severity,
-                    "mitre_id": "T1595",
-                    "mitre_name": "Active Scanning"
-                })
+    alerts = []
+
+    for (ip, path), count in scan_counts.items():
+
+        if path == "/.env":
+            severity = "High"
+
+        elif path in ["/phpmyadmin", "/wp-login.php"]:
+            severity = "High"
+
+        elif path == "/admin":
+            severity = "Medium"
+
+        else:
+            severity = "Low"
+
+
+        alerts.append({
+            "type": "Directory Scan",
+            "ip": ip,
+            "target": path,
+            "attempts": count,
+            "severity": severity,
+            "mitre_id": "T1595",
+            "mitre_name": "Active Scanning"
+        })
+
 
     return alerts
 
@@ -167,10 +182,11 @@ directory_alerts = detect_directory_scans(logs)
 
 print("\nDirectory Scan Alerts")
 
-for alert in scan_alerts:
+for alert in directory_alerts:
     print("\n🚨", alert["type"])
     print("IP:", alert["ip"])
     print("Target:", alert["target"])
+    print("Attempts:", alert["attempts"])
     print("Severity:", alert["severity"])
     print("MITRE ATT&CK:", alert["mitre_id"], "-", alert["mitre_name"])
 

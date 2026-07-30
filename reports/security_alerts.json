@@ -11,14 +11,7 @@
         "type": "Directory Scan",
         "ip": "10.0.0.55",
         "target": "/admin",
-        "severity": "Medium",
-        "mitre_id": "T1595",
-        "mitre_name": "Active Scanning"
-    },
-    {
-        "type": "Directory Scan",
-        "ip": "10.0.0.55",
-        "target": "/admin",
+        "attempts": 2,
         "severity": "Medium",
         "mitre_id": "T1595",
         "mitre_name": "Active Scanning"
@@ -27,6 +20,7 @@
         "type": "Directory Scan",
         "ip": "203.0.113.45",
         "target": "/.env",
+        "attempts": 1,
         "severity": "High",
         "mitre_id": "T1595",
         "mitre_name": "Active Scanning"
@@ -35,6 +29,7 @@
         "type": "Directory Scan",
         "ip": "203.0.113.45",
         "target": "/phpmyadmin",
+        "attempts": 1,
         "severity": "High",
         "mitre_id": "T1595",
         "mitre_name": "Active Scanning"
@@ -43,6 +38,7 @@
         "type": "Directory Scan",
         "ip": "203.0.113.45",
         "target": "/wp-login.php",
+        "attempts": 1,
         "severity": "High",
         "mitre_id": "T1595",
         "mitre_name": "Active Scanning"
