@@ -78,7 +78,9 @@ def detect_directory_scans(logs):
                     "type": "Directory Scan",
                     "ip": ip,
                     "target": path,
-                    "severity": severity
+                    "severity": severity,
+                    "mitre_id": "T1595",
+                    "mitre_name": "Active Scanning"
                 })
 
     return alerts
@@ -103,8 +105,10 @@ def generate_alerts(failed_attempts):
             "type": "Brute Force Attack",
             "ip": ip,
             "attempts": count,
-            "severity": severity
-        }
+            "severity": severity,
+            "mitre_id": "T1110",
+            "mitre_name": "Brute Force"
+ }
 
         alerts.append(alert)
 
@@ -145,6 +149,7 @@ for alert in alerts:
     print("IP:", alert["ip"])
     print("Attempts:", alert["attempts"])
     print("Severity:", alert["severity"])
+    print("MITRE ATT&CK:", alert["mitre_id"], "-", alert["mitre_name"])
 
 scan_alerts = detect_directory_scans(logs)
 
@@ -155,3 +160,5 @@ for alert in scan_alerts:
     print("IP:", alert["ip"])
     print("Target:", alert["target"])
     print("Severity:", alert["severity"])
+    print("MITRE ATT&CK:", alert["mitre_id"], "-", alert["mitre_name"])
+    
