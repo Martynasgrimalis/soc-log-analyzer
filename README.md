@@ -148,7 +148,7 @@ soc-log-analyzer/
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/soc-log-analyzer.git
+git clone https://github.com/Martynasgrimalis/soc-log-analyzer.git
 ```
 
 Navigate to the project:
@@ -174,7 +174,7 @@ python3 main.py
 - Detection of XSS attempts
 - Detection of Port Scanning
 - Unit tests
-- Modular project structure
+- Improve detection rule engine
 - SIEM-style dashboard
 
 ---
