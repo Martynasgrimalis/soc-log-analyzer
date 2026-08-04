@@ -1,144 +1,15 @@
 from collections import Counter
+from parser import read_log_file, extract_ips
+from detectors import (
+    detect_failed_logins,
+    generate_alerts,
+    detect_directory_scans,
+)
+
+from reporting import export_to_json
 import json
 import os
 
-def read_log_file(file_path):
-    with open(file_path, "r") as file:
-        logs = file.readlines()
-
-    return logs
-
-
-def extract_ips(logs):
-    ips = []
-
-    for log in logs:
-        if not log.strip():
-            continue
-
-        ip = log.split()[0]
-        ips.append(ip)
-
-    return ips
-
-
-def detect_failed_logins(logs):
-    failed_logins = {}
-
-    for log in logs:
-        if not log.strip():
-            continue
-    
-        parts = log.split()
-
-        ip = parts[0]
-        status_code = parts[-1]
-
-        if status_code == "401":
-            if ip in failed_logins:
-                failed_logins[ip] += 1
-            else:
-                failed_logins[ip] = 1
-
-    return failed_logins
-
-def detect_directory_scans(logs):
-    suspicious_paths = [
-        "/admin",
-        "/.env",
-        "/phpmyadmin",
-        "/wp-login.php"
-    ]
-
-    scan_counts = {}
-
-    for log in logs:
-        if not log.strip():
-            continue
-
-        parts = log.split()
-
-        ip = parts[0]
-
-        for path in suspicious_paths:
-            if path in log:
-
-                key = (ip, path)
-
-                if key in scan_counts:
-                    scan_counts[key] += 1
-                else:
-                    scan_counts[key] = 1
-
-
-    alerts = []
-
-    for (ip, path), count in scan_counts.items():
-
-        if path == "/.env":
-            severity = "High"
-
-        elif path in ["/phpmyadmin", "/wp-login.php"]:
-            severity = "High"
-
-        elif path == "/admin":
-            severity = "Medium"
-
-        else:
-            severity = "Low"
-
-
-        alerts.append({
-            "type": "Directory Scan",
-            "ip": ip,
-            "target": path,
-            "attempts": count,
-            "severity": severity,
-            "mitre_id": "T1595",
-            "mitre_name": "Active Scanning"
-        })
-
-
-    return alerts
-
-def generate_alerts(failed_attempts):
-    alerts = []
-
-    for ip, count in failed_attempts.items():
-        if count >= 10:
-            severity = "High"
-
-        elif count >= 5:
-            severity = "Medium"
-
-        elif count >= 3:
-            severity = "Low"
-
-        else:
-            continue
-
-        alert = {
-            "type": "Brute Force Attack",
-            "ip": ip,
-            "attempts": count,
-            "severity": severity,
-            "mitre_id": "T1110",
-            "mitre_name": "Brute Force"
- }
-
-        alerts.append(alert)
-
-    return alerts
-def export_to_json(brute_force_alerts, directory_alerts):
-    os.makedirs("reports", exist_ok=True)
-
-    all_alerts = brute_force_alerts + directory_alerts
-
-    with open("reports/security_alerts.json", "w") as file:
-        json.dump(all_alerts, file, indent=4)
-
-    print("\nJSON report saved:")
-    print("reports/security_alerts.json")
 
 log_file = "logs/sample.log"
 
@@ -176,7 +47,6 @@ for alert in alerts:
     print("Severity:", alert["severity"])
     print("MITRE ATT&CK:", alert["mitre_id"], "-", alert["mitre_name"])
 
-scan_alerts = detect_directory_scans(logs)
 
 directory_alerts = detect_directory_scans(logs)
 
@@ -189,5 +59,6 @@ for alert in directory_alerts:
     print("Attempts:", alert["attempts"])
     print("Severity:", alert["severity"])
     print("MITRE ATT&CK:", alert["mitre_id"], "-", alert["mitre_name"])
+
 
 export_to_json(alerts, directory_alerts)
