@@ -96,7 +96,16 @@ Example:
 ---
 
 ## Technologies
+## Project Architecture
 
+The project is organized into separate modules:
+
+- `main.py` - application entry point
+- `parser.py` - log file reading and IP extraction
+- `detectors.py` - threat detection logic
+- `reporting.py` - JSON report generation
+
+This modular structure improves maintainability and allows easier expansion of detection rules.
 - Python 3
 - Git
 - JSON
