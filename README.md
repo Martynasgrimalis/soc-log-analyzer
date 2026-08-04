@@ -96,6 +96,15 @@ Example:
 ---
 
 ## Technologies
+
+- Python 3
+- Git
+- JSON
+- Cybersecurity log analysis
+- MITRE ATT&CK Framework
+
+---
+
 ## Project Architecture
 
 The project is organized into separate modules:
@@ -106,11 +115,6 @@ The project is organized into separate modules:
 - `reporting.py` - JSON report generation
 
 This modular structure improves maintainability and allows easier expansion of detection rules.
-- Python 3
-- Git
-- JSON
-- Cybersecurity log analysis
-- MITRE ATT&CK Framework
 
 ---
 
