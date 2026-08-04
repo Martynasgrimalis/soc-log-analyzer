@@ -180,5 +180,5 @@ Martynas Grimalis
 
 Aspiring SOC Analyst / Junior Cybersecurity Specialist
 
-GitHub: https://github.com/YOUR_USERNAME
-LinkedIn: https://www.linkedin.com/in/YOUR_PROFILE
+GitHub: https://github.com/Martynasgrimalis
+LinkedIn: https://www.linkedin.com/in/martynas-grimalis-18b4bb421/
