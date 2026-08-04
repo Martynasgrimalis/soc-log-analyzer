@@ -69,6 +69,7 @@ T1595 - Active Scanning
 ## Screenshot
 
 ![SOC Log Analyzer Output](screenshots/soc-log-analyzer-output.png)
+```
 
 ---
 
