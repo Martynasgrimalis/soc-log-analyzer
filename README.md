@@ -111,6 +111,9 @@ Example:
 soc-log-analyzer/
 │
 ├── main.py
+├── parser.py
+├── detectors.py
+├── reporting.py
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
@@ -123,7 +126,6 @@ soc-log-analyzer/
 │
 └── screenshots/
     └── soc-log-analyzer-output.png
-```
 
 ---
 
