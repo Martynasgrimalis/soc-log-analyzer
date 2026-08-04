@@ -140,6 +140,7 @@ soc-log-analyzer/
 │
 └── screenshots/
     └── soc-log-analyzer-output.png
+```
 
 ---
 
