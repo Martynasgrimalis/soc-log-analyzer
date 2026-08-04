@@ -1,2 +1,2 @@
 # soc-log-analyzer
-Python tool for analysing security logs.
+Python-based SOC log analyzer for detecting security threats, generating alerts, mapping MITRE ATT&CK techniques and exporting JSON reports.
